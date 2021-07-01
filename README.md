@@ -1,4 +1,4 @@
-#Realtime Nano node monitor
+# Realtime Nano node monitor
 
 This is a nano node monitor dashboard which gives you insight in the node status and resource usage of the server.
 
