@@ -119,7 +119,7 @@ And in the env.production use
 
 ## Speedtest (BETA)
 
-WARNING this is only for advances users. If you don't fully understand the following text, don't enable the speedtest functionality.
+WARNING this is only for advanced users. If you don't fully understand the following text, don't enable the speedtest functionality.
 
 
 #### prerequisites
