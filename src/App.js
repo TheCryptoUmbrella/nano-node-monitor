@@ -1,5 +1,6 @@
 import {Component} from "react";
 
+import GHLogo from './image/GitHub-Mark-Light-64px.png'
 import blue_loader from './image/nano_logo_blue.gif';
 import white_loader from './image/nano_logo_white.gif';
 import logo from './image/nano+full+white.svg'
@@ -51,6 +52,7 @@ export default class App extends Component {
         socketConnected: false,
         peers: 0,
         config: {
+            version: '',
             speedtestEnabled: false
         }
     };
@@ -450,9 +452,8 @@ export default class App extends Component {
                                 </tbody>
                             </table>
                             <p className={"stats-footer text-center"}
-                               style={this.state.node_block_count > this.state.ledger_block_count ? {color: 'green'} : {color: 'red'}}>
-                                Sync
-                                status {Math.round((this.state.node_block_count / this.state.ledger_block_count) * 100)}%
+                               style={Math.round((this.state.node_block_count / this.state.ledger_block_count) * 100) > 99 ? {color: 'green'} : {color: 'red'}}>
+                                Sync status {Math.round((this.state.node_block_count / this.state.ledger_block_count) * 100)}%
                             </p>
                         </div>
                     </div>
@@ -748,8 +749,13 @@ export default class App extends Component {
             </Row>
             }
             <Row>
-                <Col xs={12} className={"text-center pt-3"}>
-                    <p style={{color: '#4A90E2'}}>{this.state.node_vendor} ({this.state.store_vendor}, {this.state.peers} peers)</p>
+                <Col xs={{span: 6, offset: 3}} className={"text-center pt-2"}>
+                    <p className={'mb-1 text-blue'}>{this.state.node_vendor} ({this.state.store_vendor}, {this.state.peers} peers)</p>
+                    <p className={'mt-0 pt-0 text-blue dashboard-version'}>dashboard V{this.state.config.version}</p>
+                </Col>
+                <Col xs={3} className={"text-right pt-2 pr-4"}>
+                    <a href={"https://github.com/TheCryptoUmbrella/nano-node-monitor"} target={"_blank"}> <img width={16} src={GHLogo} /></a>
+
                 </Col>
             </Row>
         </Container>

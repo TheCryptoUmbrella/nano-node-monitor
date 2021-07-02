@@ -201,3 +201,12 @@ label.form-switch {
   font-size: 10px;
   color: orange;
 }
+
+.text-blue {
+  color:#4A90E2;
+}
+
+.dashboard-version{
+  font-size: 10px;
+  opacity: 0.5;
+}
