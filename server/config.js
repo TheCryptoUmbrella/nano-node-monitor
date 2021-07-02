@@ -9,7 +9,7 @@ if (configResult.error) {
 }
 
 //All the constants we use
-const MONITOR_VERSION = '1.0.0';
+const MONITOR_VERSION = '1.0.1';
 const WALLET = process.env.WALLET;
 const ADDRESS = process.env.NODE_ADDRESS;
 const SPEEDTEST_ADDRESS = process.env.SPEEDTEST_ADDRESS;
