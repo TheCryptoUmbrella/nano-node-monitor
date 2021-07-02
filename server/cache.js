@@ -7,7 +7,7 @@ const nanoNinjaCache = {
     currentBlock: 0,
     cementedBlocks: 0,
     uncheckedBlocks:0,
-    blockSync: 100,
+    blockSync: 0,
     stats: null
 };
 

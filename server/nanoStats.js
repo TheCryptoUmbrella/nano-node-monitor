@@ -51,6 +51,9 @@ async function updateBlockData() {
         cacheData.nanoNinjaCache.currentBlock = parseInt(blockCount.count);
         cacheData.nanoNinjaCache.uncheckedBlocks = parseInt(blockCount.unchecked);
         cacheData.nanoNinjaCache.cementedBlocks = parseInt(blockCount.cemented);
+
+        const networkBlockCount = telemetry && parseInt(telemetry.block_count);
+        cacheData.nanoNinjaCache.blockSync = cacheData.nanoNinjaCache.currentBlock > networkBlockCount ? 100 :  Math.round((100 * cacheData.nanoNinjaCache.currentBlock) / networkBlockCount);
     }
 }
 
