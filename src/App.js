@@ -541,11 +541,11 @@ export default class App extends Component {
                             <table className={"table table-striped"}>
                                 <tbody>
                                 <tr>
-                                    <th scope="row">Node votes</th>
+                                    <th scope="row">Votes cast</th>
                                     <td  style={{width: '38%'}}>{this.state.account_vote_count}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Network votes</th>
+                                    <th scope="row">Votes seen</th>
                                     <td  style={{width: '38%'}}>{this.state.network_vote_count} </td>
                                 </tr>
                                 <tr>
@@ -553,7 +553,7 @@ export default class App extends Component {
                                 </tbody>
                             </table>
                             <p className={"stats-footer text-center"} style={{fontSize: '8px'}}>
-                                Node involved in {this.state.account_vote_count === 0 ? 0 : ((this.state.account_vote_count / this.state.network_vote_count) * 100).toFixed(1) }% of network votes
+                                Node involved in {this.state.account_vote_count === 0 ? 0 : ((this.state.account_vote_count / this.state.network_vote_count) * 100).toFixed(1) }% of votes seen
                             </p>
                         </div>
                     </div>
