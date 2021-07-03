@@ -14,7 +14,7 @@ async function checkPendingTransactions(){
     if (cacheData.latestTransactions && pending && pending.blocks && pending.blocks[config.SPEEDTEST_ADDRESS]) {
         const hashes = pending.blocks[config.SPEEDTEST_ADDRESS];
         for (let i in hashes) {
-            console.log('sending back hash: ',hashes[i]);
+            console.log('speedtestFallback: sending back hash: ',hashes[i]);
             await sendBlockBack(hashes[i]);
         }
     }
@@ -38,13 +38,13 @@ async function sendBlockBack(hash) {
         block = await config.nodeConnection.block(block.contents.link).catch((e)=> {console.error('error fetching block', e)});
     }
     let work = await generateWork(previousHash, config.SEND_THRESHOLD).catch((e) => {
-        console.error('error DPoW', e)
+        console.error('speedtestFallback: error DPoW', e)
     })
     if (!work) {
         return
     }
     await config.nodeConnection.send(config.WALLET, config.SPEEDTEST_ADDRESS, block.block_account, block.amount, work).catch((e) => {
-        console.error('error send back', e)
+        console.error('speedtestFallback: error send back', e)
     });
 
     return true;
@@ -65,8 +65,14 @@ async function check(){
     //check balance should be 0, if not traverse transactions to find who needs nano back;
     const balance = await config.nodeConnection.balance(config.SPEEDTEST_ADDRESS).catch((e) => {console.error('error fetching balance',e )});
 
+    if (!balance) return console.error('speedtestFallback: error fetching balance:', config.SPEEDTEST_ADDRESS);
+
+    if (balance.error) {
+        return console.error('speedtestFallback: error fetching balance, ' , balance.error, config.SPEEDTEST_ADDRESS);
+    }
+
     if (balance.pending !== "0"){
-        console.log('found pending transactions, handle them');
+        console.log('speedtestFallback: found pending transactions, handle them');
         //handle pending transactions
         await checkPendingTransactions();
     }
@@ -92,13 +98,13 @@ async function check(){
                 const amount = cache[i].toString().replace('-', '');
                 cacheData.latestTransactions = await config.nodeConnection.history(config.SPEEDTEST_ADDRESS).catch((e)=> {console.error('error fetching history', e)});
                 let work = await generateWork(cacheData.latestTransactions.history[0].hash, config.SEND_THRESHOLD).catch((e) => {
-                    console.error('error DPoW', e)
+                    console.error('speedtestFallback: error DPoW', e)
                 })
                 if (!work) {
                     return
                 }
                 const result = await config.nodeConnection.send(config.WALLET, config.SPEEDTEST_ADDRESS, i, amount, work).catch((e) => {
-                    console.error('error send back', e)
+                    console.error('speedtestFallback: error send back', e)
                 });
 
             }
