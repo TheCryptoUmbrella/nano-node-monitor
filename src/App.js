@@ -14,6 +14,7 @@ export default class App extends Component {
     state = {
         fullPageLoader: true,
         blockStatsLoader: true,
+        accountLoader: true,
         resourceLoader: true,
         cpuPercentLoader: true,
         speedTestLoader: true,
@@ -211,6 +212,11 @@ export default class App extends Component {
                     })
                     break;
                 case 'delegator_count':
+                    if (this.state.accountLoader) {
+                        this.setState({
+                            accountLoader: false
+                        })
+                    }
                     this.setState({
                         node_delegator_count: incomingdata.delegator_count.count
                     })
@@ -289,6 +295,9 @@ export default class App extends Component {
                     break
                 case 'config':
                     this.setState({config: incomingdata.config});
+                    break;
+                default:
+                    break;
             }
     }
 
@@ -318,7 +327,7 @@ export default class App extends Component {
             const value = Math.round(end - (remaining * range));
             self.state[id] = value;
             self.setState(self.state);
-            if (value == end) {
+            if (value === end) {
                 clearInterval(self.timers[id]);
             }
         }
@@ -391,18 +400,22 @@ export default class App extends Component {
         return (bytes / 125000).toFixed(2);
     }
 
+    _getLoader(state) {
+        return <img alt={"loader"} className={state ? 'loader' : "d-none"} src={white_loader}/>
+    }
+
     render() {
 
         if (this.state.fullPageLoader) {
             return <Container className={"d-flex flex-column min-vh-100 justify-content-center align-items-center"}>
-                <img className={"loader"} src={blue_loader}/>
+                <img alt={"loader"} className={"loader"} src={blue_loader}/>
             </Container>
         }
 
         return <Container id={"mainContainer"}>
             <Row>
                 <Col md={2} xs={4}>
-                    <img src={logo}/>
+                    <img alt={"nano logo"} src={logo}/>
                 </Col>
                 <Col md={{offset: 7, span: 3}} xs={{span: 6, offset: 2}} className={"text-right"}>
                     <label className="form-switch pt-md-4 pt-2" >
@@ -423,7 +436,7 @@ export default class App extends Component {
                     <Col xs={12} md={6} xl={4}>
                     <div className={"statsContainer"}>
                         <h2>Blockcount</h2>
-                        <img className={this.state.blockStatsLoader ? 'loader' : "d-none"} src={white_loader}/>
+                        {this._getLoader(this.state.blockStatsLoader)}
                         <div className={this.state.blockStatsLoader ? 'd-none' : ''}>
                             <table className={"table table-striped table-blocks"}>
                                 <thead>
@@ -461,7 +474,7 @@ export default class App extends Component {
                     <Col xs={12} md={6} xl={4}>
                         <div className={"statsContainer"}>
                             <h2>Resources</h2>
-                            <img className={this.state.resourceLoader ? 'loader' : "d-none"} src={white_loader}/>
+                            {this._getLoader(this.state.resourceLoader)}
                             <div className={this.state.resourceLoader ? 'd-none' : ''}>
                                 <table className={"table table-striped"}>
                                     <tbody>
@@ -494,7 +507,7 @@ export default class App extends Component {
                     <Col xs={12} md={6} xl={4}>
                         <div className={"statsContainer"}>
                             <h2>Representative</h2>
-                            <img className={this.state.accountLoader ? 'loader' : "d-none"} src={white_loader}/>
+                            {this._getLoader(this.state.accountLoader)}
                             <div className={this.state.accountLoader ? 'd-none' : ''}>
                                 <table className={"table table-striped table-votes"}>
                                     <tbody>
@@ -512,7 +525,7 @@ export default class App extends Component {
                                 </table>
                                 <p className={"stats-footer text-center"} style={{fontSize: '8px'}}>
                                     <a href={"https://nanocrawler.cc/explorer/account/"+this.state.config.repAddress}
-                                       target={"_blank"}>{this.state.config.repAddress}</a>
+                                       target={"_blank"} rel="noreferrer">{this.state.config.repAddress}</a>
                                 </p>
                             </div>
                         </div>
@@ -523,7 +536,7 @@ export default class App extends Component {
                 <Col xs={12} md={3}>
                     <div className={"statsContainer"}>
                         <h2>Voting</h2>
-                        <img className={this.state.voteLoader ? 'loader' : "d-none"} src={white_loader}/>
+                        {this._getLoader(this.state.voteLoader)}
                         <div className={this.state.voteLoader ? 'd-none' : ''}>
                             <table className={"table table-striped"}>
                                 <tbody>
@@ -548,7 +561,7 @@ export default class App extends Component {
                 <Col xs={12} md={4}>
                     <div className={"statsContainer"}>
                         <h2>CPU</h2>
-                        <img className={this.state.cpuPercentLoader ? 'loader' : "d-none"} src={white_loader}/>
+                        {this._getLoader(this.state.cpuPercentLoader)}
                         <div className={this.state.cpuPercentLoader ? 'd-none' : "single-chart"}>
                             <svg viewBox="0 0 36 36" className="circular-chart blue">
                                 <path className="circle-bg"
@@ -571,7 +584,7 @@ export default class App extends Component {
                 <Col xs={12} md={5}>
                     <div className={"statsContainer"}>
                         <h2>Bandwidth</h2>
-                        <img className={this.state.cpuPercentLoader ? 'loader' : "d-none"} src={white_loader}/>
+                        {this._getLoader(this.state.cpuPercentLoader)}
                         <Row>
                             <Col xs={6}>
                                 <div className={this.state.cpuPercentLoader ? 'd-none' : "single-chart"}>
@@ -624,7 +637,7 @@ export default class App extends Component {
                     <div className={"statsContainer"}>
                         <h2>Node speedtest</h2>
                         {this.state.enableSpeedTest && this.state.speedtestStep === 1 && <>
-                            <img className={'loader'} src={white_loader}/>
+                            {this._getLoader(true)}
                             <p className={"text-center"}>
                                 Generating "receive" PoW with WebAssembly
                             </p>
@@ -634,7 +647,7 @@ export default class App extends Component {
                             <p className={"text-center"}>
                                 Send nano to this address:
                             </p>
-                            <img className={'loader'} src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${this.state.config.speedtestAddress}`}/>
+                            <img alt={"qr code"} className={'loader'} src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${this.state.config.speedtestAddress}`}/>
                             <p className={"text-center"} style={{fontSize: '10px'}}>
                                 {this.state.config.speedtestAddress}
                             </p>
@@ -642,14 +655,14 @@ export default class App extends Component {
                         </>
                         }
                         {this.state.enableSpeedTest && this.state.speedtestStep === 3 && <>
-                            <img className={'loader'} src={white_loader}/>
+                            {this._getLoader(true)}
                             <p className={"text-center"}>
                                 Generating "send" PoW, we're using DPoW.
                             </p>
                         </>
                         }
                         {this.state.enableSpeedTest && this.state.speedtestStep === 4 && <>
-                            <img className={'loader'} src={white_loader}/>
+                            {this._getLoader(true)}
                             <p className={"text-center"}>
                                 Nano send back, waiting for confirmation.
                             </p>
@@ -704,7 +717,7 @@ export default class App extends Component {
                 <Col xs={12} lg={{span: 6}}>
                     <div className={"statsContainer"}>
                         <h2>Speedtest Transactions</h2>
-                        <img className={this.state.speedTestLoader ? 'loader' : "d-none"} src={white_loader}/>
+                        {this._getLoader(this.state.speedTestLoader)}
                         <div className={this.state.speedTestLoader ? 'd-none' : ''}>
                             <table className={"table table-striped table-blocks"}>
                                 <thead>
@@ -727,11 +740,11 @@ export default class App extends Component {
                                         </td>
                                         <td>
                                             <a href={"https://nanocrawler.cc/explorer/account/" + transaction.account}
-                                               target={"_blank"}>{transaction.account.substring(0, 8)}...</a>
+                                               target={"_blank"} rel="noreferrer">{transaction.account.substring(0, 8)}...</a>
                                         </td>
                                         <td>
                                             <a href={"https://nanocrawler.cc/explorer/block/" + transaction.hash}
-                                               target={"_blank"}>{transaction.hash.substring(0, 8)}...</a>
+                                               target={"_blank"} rel="noreferrer">{transaction.hash.substring(0, 8)}...</a>
                                         </td>
                                         <td>
                                             {transaction.type === 'send' ? "-" : "+"}{this.rawToNano(transaction.amount, 5)} Nano
@@ -754,7 +767,7 @@ export default class App extends Component {
                     <p className={'mt-0 pt-0 text-blue dashboard-version'}>dashboard V{this.state.config.version}</p>
                 </Col>
                 <Col xs={3} className={"text-right pt-2 pr-4"}>
-                    <a href={"https://github.com/TheCryptoUmbrella/nano-node-monitor"} target={"_blank"}> <img width={16} src={GHLogo} /></a>
+                    <a href={"https://github.com/TheCryptoUmbrella/nano-node-monitor"} target={"_blank"} rel="noreferrer"> <img alt={"github logo"} width={16} src={GHLogo} /></a>
 
                 </Col>
             </Row>
