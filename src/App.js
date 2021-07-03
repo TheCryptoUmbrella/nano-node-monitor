@@ -420,7 +420,7 @@ export default class App extends Component {
                 </Col>
             </Row>
             <Row>
-                    <Col xs={12} md={4}>
+                    <Col xs={12} md={6} xl={4}>
                     <div className={"statsContainer"}>
                         <h2>Blockcount</h2>
                         <img className={this.state.blockStatsLoader ? 'loader' : "d-none"} src={white_loader}/>
@@ -458,7 +458,7 @@ export default class App extends Component {
                         </div>
                     </div>
                     </Col>
-                    <Col xs={12} md={4}>
+                    <Col xs={12} md={6} xl={4}>
                         <div className={"statsContainer"}>
                             <h2>Resources</h2>
                             <img className={this.state.resourceLoader ? 'loader' : "d-none"} src={white_loader}/>
@@ -491,7 +491,7 @@ export default class App extends Component {
                             </div>
                         </div>
                     </Col>
-                    <Col xs={12} md={4}>
+                    <Col xs={12} md={6} xl={4}>
                         <div className={"statsContainer"}>
                             <h2>Representative</h2>
                             <img className={this.state.accountLoader ? 'loader' : "d-none"} src={white_loader}/>
@@ -620,7 +620,7 @@ export default class App extends Component {
 
             {this.state.config && this.state.config.speedtestEnabled &&
             <Row>
-                <Col xs={12} md={{span: 6}}>
+                <Col md={12} lg={{span: 6}}>
                     <div className={"statsContainer"}>
                         <h2>Node speedtest</h2>
                         {this.state.enableSpeedTest && this.state.speedtestStep === 1 && <>
@@ -701,7 +701,7 @@ export default class App extends Component {
                         }
                     </div>
                 </Col>
-                <Col xs={12} md={{span: 6}}>
+                <Col xs={12} lg={{span: 6}}>
                     <div className={"statsContainer"}>
                         <h2>Speedtest Transactions</h2>
                         <img className={this.state.speedTestLoader ? 'loader' : "d-none"} src={white_loader}/>
