@@ -17,7 +17,7 @@ see it live: [https://nano.thecryptoumbrella.com](https://nano.thecryptoumbrella
 
 ### Installing Docker image
 
-    sudo docker pull thecryptoumbrella/nano-node-monitor:v1.0.0
+    sudo docker pull thecryptoumbrella/nano-node-monitor:v1.0.2
 
 #### Docker compose
 
@@ -28,7 +28,7 @@ Change ports accordingly if you'd like a different setup.
 version: '3'
 services:
   monitor:
-    image: "thecryptoumbrella/nano-node-monitor:v1.0.0"
+    image: "thecryptoumbrella/nano-node-monitor:v1.0.2"
     restart: "unless-stopped"
     ports:
      - "80:80"
@@ -52,7 +52,7 @@ If you'd like to run it stand alone, it is easiest to run it on the "host" netwo
 We recommend to use docker compose, because that solves the network problems.
  
 
-    sudo docker run -d --network=host -p 80:80 -v ~:/opt --restart=unless-stopped --name=nanoMonitor thecryptoumbrella/nano-node-monitor:v1.0.0
+    sudo docker run -d --network=host -p 80:80 -v ~:/opt --restart=unless-stopped --name=nanoMonitor thecryptoumbrella/nano-node-monitor:v1.0.2
 
 
 ## Config

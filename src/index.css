@@ -10,6 +10,10 @@ body {
   font-size: 10px;
 }
 
+td, th,p {
+  color: rgb(209, 205, 199);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -31,7 +35,7 @@ td {
 }
 
 h2 {
-  color: #676686;
+  color: rgb(157, 149, 136);;
 }
 
 .text {
@@ -43,19 +47,24 @@ h2 {
 }
 
 
+.table td, .table th {
+  border-top-color: rgb(56, 61, 63);
+}
+
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-  background-color: #F4FAFF;
+  background-color: rgb(27, 29, 30);
 }
 .statsContainer {
   min-height: 300px;
-  background-color: white;
+  background-color: rgb(24, 26, 27);
   border-radius: 15px;
-  border: 2px solid white;
+  border: 2px solid rgb(48, 52, 54);
   margin-bottom: 1rem;
 }
 
 .stats-footer{
   font-size: 10px;
+  overflow-wrap: break-word;
 }
 
 .statsContainer h2{
@@ -72,7 +81,7 @@ h2 {
 }
 
 label.form-switch {
-  color:#4A90E2;
+  color: rgb(84, 161, 228);
 }
 
 .form-switch i {
@@ -138,7 +147,7 @@ label.form-switch {
 
 .circle-bg {
   fill: none;
-  stroke: #eee;
+  stroke: rgb(209, 205, 199);
   stroke-width: 3.8;
 }
 
@@ -168,14 +177,14 @@ label.form-switch {
 }
 
 .percentage {
-  fill: #666;
+  fill: rgb(209, 205, 199);
   font-family: sans-serif;
   font-size: 0.5em;
   text-anchor: middle;
 }
 
 .bandwidth {
-  fill: #666;
+  fill: rgb(209, 205, 199);
   font-family: sans-serif;
   font-size: 4px;
   text-anchor: middle;
@@ -186,7 +195,7 @@ label.form-switch {
   position: absolute;
   margin-top: -37px;
   margin-left: 5px;
-  color: darkgreen;
+  color: rgb(200, 196, 189);
   transform-origin: 0 0;
   transform: rotate(
           -45deg
@@ -199,14 +208,24 @@ label.form-switch {
 
 .betaDetails{
   font-size: 10px;
-  color: orange;
+  color: rgb(255, 174, 26);
 }
 
 .text-blue {
-  color:#4A90E2;
+  color: rgb(84, 161, 228);
 }
 
 .dashboard-version{
   font-size: 10px;
   opacity: 0.5;
+}
+
+btn-primary {
+  color: rgb(232, 230, 227);
+  background-color: rgb(0, 98, 204);
+  border-color: rgb(0, 86, 179);
+}
+.table tr, .table th, table td {
+  border-top-color: rgb(56, 61, 63) !important;
+  border-bottom-color: rgb(56, 61, 63) !important;
 }

@@ -1,8 +1,7 @@
 import {Component} from "react";
 
 import GHLogo from './image/GitHub-Mark-Light-64px.png'
-import blue_loader from './image/nano_logo_blue.gif';
-import white_loader from './image/nano_logo_white.gif';
+import nano_loader from './image/nano_loader.gif';
 import logo from './image/nano+full+white.svg'
 import config from './config'
 import Row from 'react-bootstrap/Row';
@@ -401,14 +400,14 @@ export default class App extends Component {
     }
 
     _getLoader(state) {
-        return <img alt={"loader"} className={state ? 'loader' : "d-none"} src={white_loader}/>
+        return <img alt={"loader"} className={state ? 'loader' : "d-none"} src={nano_loader}/>
     }
 
     render() {
 
         if (this.state.fullPageLoader) {
             return <Container className={"d-flex flex-column min-vh-100 justify-content-center align-items-center"}>
-                <img alt={"loader"} className={"loader"} src={blue_loader}/>
+                <img alt={"loader"} className={"loader"} src={nano_loader}/>
             </Container>
         }
 
@@ -570,7 +569,7 @@ export default class App extends Component {
           a 15.9155 15.9155 0 0 1 0 -31.831"
                                 />
                                 <path className="circle"
-                                      stroke-dasharray={this.state.node_cpu_percent+", 100"}
+                                      strokeDasharray={this.state.node_cpu_percent+", 100"}
                                       d="M18 2.0845
           a 15.9155 15.9155 0 0 1 0 31.831
           a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -595,7 +594,7 @@ export default class App extends Component {
           a 15.9155 15.9155 0 0 1 0 -31.831"
                                         />
                                         <path className="circle"
-                                              stroke-dasharray={this.state.node_realtime_bandwith_percent_in+", 100"}
+                                              strokeDasharray={this.state.node_realtime_bandwith_percent_in+", 100"}
                                               d="M18 2.0845
           a 15.9155 15.9155 0 0 1 0 31.831
           a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -614,7 +613,7 @@ export default class App extends Component {
           a 15.9155 15.9155 0 0 1 0 -31.831"
                                         />
                                         <path className="circle"
-                                              stroke-dasharray={this.state.node_realtime_bandwith_percent_out+", 100"}
+                                              strokeDasharray={this.state.node_realtime_bandwith_percent_out+", 100"}
                                               d="M18 2.0845
           a 15.9155 15.9155 0 0 1 0 31.831
           a 15.9155 15.9155 0 0 1 0 -31.831"
