@@ -4,7 +4,7 @@ This is a nano node monitor dashboard which gives you insight in the node status
 
 see it live: [https://nano.thecryptoumbrella.com](https://nano.thecryptoumbrella.com)
 
-![Monitor](https://i.imgur.com/wF9wer9.png)
+![Monitor](https://i.imgur.com/Cixcicl.png)
 
 ## Features
 - Node's block information / sync status
