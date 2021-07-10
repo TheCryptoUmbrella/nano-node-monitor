@@ -35,28 +35,28 @@ async function resourceUsage() {
         cacheData.nodeStatsCache = newStats;
     }
 
-    cacheData.updateCacheData('resources', JSON.stringify({resources: obj}));
+    cacheData.updateCacheData('resources',  obj);
 }
 
 
 async function updateBlockData() {
     const telemetry = await config.nodeConnection.telemetry().catch((e)=> {console.error('error fetching telemetry', e)});
     if (telemetry)
-        cacheData.updateCacheData('telemetry', JSON.stringify({telemetry: telemetry}));
+        cacheData.updateCacheData('telemetry', telemetry);
 
     const blockCount = await config.nodeConnection.blockCount().catch((e)=> {console.error('error fetching block count', e)});
     if (blockCount) {
-        cacheData.updateCacheData('block_count', JSON.stringify({block_count: blockCount}));
+        cacheData.updateCacheData('block_count', blockCount);
 
 
         const newCount  = parseInt(blockCount.count);
         const newCementedCount = parseInt(blockCount.cemented);
         if (cacheData.nanoNinjaCache.currentBlock && cacheData.nanoNinjaCache.cementedBlocks) {
             const cps = ((newCementedCount - cacheData.nanoNinjaCache.cementedBlocks) / BLOCK_DATA_INTERVAL_SECONDS).toFixed(2);
-            cacheData.updateCacheData('cps', JSON.stringify({cps: cps}))
+            cacheData.updateCacheData('cps', cps);
 
             const bps = ((newCount - cacheData.nanoNinjaCache.currentBlock) / BLOCK_DATA_INTERVAL_SECONDS).toFixed(2);
-            cacheData.updateCacheData('bps', JSON.stringify({bps: bps}))
+            cacheData.updateCacheData('bps',bps);
         }
 
         cacheData.nanoNinjaCache.currentBlock = newCount;
@@ -71,24 +71,24 @@ async function updateBlockData() {
 async function updateAccountData() {
     const delegatorCount = await config.nodeConnection.delegatorCount(config.ADDRESS).catch((e)=> {console.error('error fetching delegator_count', e)});
     if (delegatorCount)
-        cacheData.updateCacheData('delegator_count', JSON.stringify({delegator_count: delegatorCount}));
+        cacheData.updateCacheData('delegator_count', delegatorCount);
 
     const weight = await config.nodeConnection.weight(config.ADDRESS).catch((e)=> {console.error('error fetching block count', e)});
     if (weight)
-        cacheData.updateCacheData('weight', JSON.stringify({weight: weight}));
+        cacheData.updateCacheData('weight', weight);
 
     if (config.SPEEDTEST_ENABLED) {
         const latestTransactions = await config.nodeConnection.history(config.SPEEDTEST_ADDRESS).catch((e)=> {console.error('error fetching block count', e)});
         if (latestTransactions) {
             cacheData.latestTransactions = latestTransactions;
-            cacheData.updateCacheData('speedtest', JSON.stringify({speedtestTransactions: latestTransactions}));
+            cacheData.updateCacheData('speedtestTransactions', latestTransactions);
         }
     }
 
     const peers = await config.nodeConnection.peers().catch((e)=> {console.error('error fetching peers count', e)});
     if (peers) {
-        const peerCount = Object.keys(peers.peers).length
-        cacheData.updateCacheData('peers', JSON.stringify({peers: peerCount}));
+        const peerCount = Object.keys(peers.peers).length;
+        cacheData.updateCacheData('peers',peerCount);
     }
 
 
@@ -98,7 +98,7 @@ async function updateAccountData() {
 async function updateVersion(){
     const version = await config.nodeConnection.version().catch((e)=> {console.error('error fetching version', e)});
     cacheData.nanoNinjaCache.version = version.node_vendor;
-    cacheData.updateCacheData('version', JSON.stringify({version: version}));
+    cacheData.updateCacheData('version', version);
 }
 
 

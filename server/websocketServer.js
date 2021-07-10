@@ -109,7 +109,7 @@ function pushRealtimStats(data) {
 realtimeStats.registerForUpdates(pushRealtimStats);
 
 function sendUpdateForSpeedtestChange(){
-    cacheData.updateCacheData('speedtestActive', JSON.stringify({speedtestActive:speedtestActive}));
+    cacheData.updateCacheData('speedtestActive', speedtestActive);
 }
 
 function pushData(data){
@@ -127,10 +127,10 @@ async function nanoWebsockMessageHandler(data) {
                 sendBackQueue.push(block);
 
                 cacheData.latestTransactions = await config.nodeConnection.history(config.SPEEDTEST_ADDRESS).catch((e)=> {console.error('error fetching block count', e)});
-                cacheData.updateCacheData('speedtest', JSON.stringify({speedtestTransactions: cacheData.latestTransactions}));
+                cacheData.updateCacheData('speedtestTransactions', cacheData.latestTransactions);
             } else if (data.message.account === config.SPEEDTEST_ADDRESS && data.message.block.subtype === 'send') {
                 cacheData.latestTransactions = await config.nodeConnection.history(config.SPEEDTEST_ADDRESS).catch((e)=> {console.error('error fetching block count', e)});
-                cacheData.updateCacheData('speedtest', JSON.stringify({speedtestTransactions: cacheData.latestTransactions}));
+                cacheData.updateCacheData('speedtestTransactions', cacheData.latestTransactions);
             } else if (receivePow && data.message.block.link_as_account === config.SPEEDTEST_ADDRESS && data.message.block.subtype === 'send' && data.message.confirmation_type === 'active_quorum'){
                 const block = await config.nodeConnection.receive(config.WALLET, config.SPEEDTEST_ADDRESS,data.message.hash, receivePow);
                 receivePow = null;

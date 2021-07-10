@@ -21,7 +21,7 @@ const cache = {
     resources: '',
     delegator_count: '',
     weight: '',
-    speedtest: '',
+    speedtestTransactions: '',
     speedtestActive: JSON.stringify({speedtestActive: false}),
     peers: '',
     cps: '',
@@ -41,12 +41,15 @@ function registerCacheChange(fn) {
 }
 
 function updateCacheData(key, data) {
-    if (cache[key] === data) return;
+    let obj = {}
+    obj[key] = data;
+    const stringData = JSON.stringify(obj);
+    if (cache[key] === stringData) return;
 
-    cache[key] = data;
+    cache[key] = stringData;
 
     callbacks.forEach((fn) => {
-        fn(data);
+        fn(stringData);
     })
 }
 
