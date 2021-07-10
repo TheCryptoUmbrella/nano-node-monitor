@@ -257,9 +257,9 @@ btn-primary {
   top:50%;
   transform:translateY(-50%);
 
-  /* move to right */
-  left:100%;
-  margin-left:15px; /* and add a small left margin */
+  /* move to left */
+  right:100%;
+  margin-right:15px; /* and add a small right margin */
 
   /* basic styles */
   width:200px;
@@ -277,8 +277,8 @@ btn-primary {
   position:absolute;
 
   /* position tooltip correctly */
-  left:100%;
-  margin-left:-5px;
+  right:100%;
+  margin-right:-5px;
 
   /* vertically center */
   top:50%;
@@ -286,7 +286,7 @@ btn-primary {
 
   /* the arrow */
   border:10px solid #000;
-  border-color: transparent black transparent transparent;
+  border-color: transparent transparent transparent black;
 
   display:none;
 }
