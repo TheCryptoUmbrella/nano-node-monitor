@@ -58,7 +58,9 @@ export default class App extends Component {
         config: {
             version: '',
             speedtestEnabled: false
-        }
+        },
+        nanoPriceUsd: null,
+        nanoPriceChange: null
     };
 
     RECEIVE_THRESHOLD = 'fffffe0000000000';
@@ -73,6 +75,7 @@ export default class App extends Component {
     reconnectTimer = null;
     ledgerBlockCount = 0;
     nodeBlockCount = 0;
+    nanoPriceIntervalId = null;
 
 
     async componentWillMount() {
@@ -103,6 +106,10 @@ export default class App extends Component {
             }
 
         });
+
+        this.updateNanoPrice();
+        if (this.nanoPriceIntervalId) clearInterval(this.nanoPriceIntervalId);
+        this.nanoPriceIntervalId = setInterval(this.updateNanoPrice.bind(this), 60 * 1000);
     }
 
     _reconnect() {
@@ -378,6 +385,26 @@ export default class App extends Component {
         this.setState({
             realtimeEnabled: !this.state.realtimeEnabled
         });
+
+    }
+
+    updateNanoPrice() {
+        const self = this;
+        const oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", function(){
+            try{
+                let data = JSON.parse(this.responseText);
+                self.setState({
+                    nanoPriceUsd: data.nano.usd,
+                    nanoPriceChange: data.nano.usd_24h_change
+                })
+            }catch (e) {
+
+            }
+        });
+        oReq.open("GET", "https://api.coingecko.com/api/v3/simple/price?ids=nano&vs_currencies=usd&include_24hr_change=true");
+        oReq.send();
+
 
     }
 
@@ -823,13 +850,15 @@ export default class App extends Component {
             </Row>
             }
             <Row>
-                <Col xs={{span: 6, offset: 3}} className={"text-center pt-2"}>
+                <Col xs={3} className={this.state.nanoPriceUsd ? 'pl-4' : 'd-none'}>
+                    <p className={"text-blue"}>${this.state.nanoPriceUsd} (last 24h {this.state.nanoPriceChange.toFixed(2)}%)</p>
+                </Col>
+                <Col xs={{span: 6}} className={"text-center"}>
                     <p className={'mb-1 text-blue'}>{this.state.node_vendor} ({this.state.store_vendor}, {this.state.peers} peers)</p>
                     <p className={'mt-0 pt-0 text-blue dashboard-version'}>dashboard V{this.state.config.version} ({this.state.usersOnline} {this.state.usersOnline === 1 ? 'user': 'users'} viewing)</p>
                 </Col>
-                <Col xs={3} className={"text-right pt-2 pr-4"}>
+                <Col xs={3} className={"text-right pr-4"}>
                     <a href={"https://github.com/TheCryptoUmbrella/nano-node-monitor"} target={"_blank"} rel="noreferrer"> <img alt={"github logo"} width={16} src={GHLogo} /></a>
-
                 </Col>
             </Row>
         </Container>
