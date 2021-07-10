@@ -229,3 +229,68 @@ btn-primary {
   border-top-color: rgb(56, 61, 63) !important;
   border-bottom-color: rgb(56, 61, 63) !important;
 }
+
+
+.ttip {
+  position: absolute;
+  text-align: center;
+  background-color: rgb(157, 149, 136);
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  right: 24px;
+  bottom: 24px;
+}
+
+.ttip p {
+  color: black;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.ttip:before {
+  content: attr(data-text); /* here's the magic */
+  position:absolute;
+
+  /* vertically center */
+  top:50%;
+  transform:translateY(-50%);
+
+  /* move to right */
+  left:100%;
+  margin-left:15px; /* and add a small left margin */
+
+  /* basic styles */
+  width:200px;
+  padding:10px;
+  border-radius:10px;
+  background:#000;
+  color: rgb(157, 149, 136);
+  text-align:center;
+  z-index: 2;
+  display:none; /* hide by default */
+}
+
+.ttip:after {
+  content: "";
+  position:absolute;
+
+  /* position tooltip correctly */
+  left:100%;
+  margin-left:-5px;
+
+  /* vertically center */
+  top:50%;
+  transform:translateY(-50%);
+
+  /* the arrow */
+  border:10px solid #000;
+  border-color: transparent black transparent transparent;
+
+  display:none;
+}
+
+.ttip:hover:before, .ttip:hover:after {
+  display:block;
+}

@@ -490,13 +490,13 @@ export default class App extends Component {
 
                             <Row className={"mt-3"}>
                                 <Col>
-                                    <p className={"stats-footer text-center"}
+                                    <p className={"stats-footer text-center pt-2"}
                                        style={this._getSyncPercentage() > 99 ? {color: 'green'} : {color: 'red'}}>
                                         Sync status {this._getSyncPercentage()}%
                                     </p>
                                 </Col>
                             </Row>
-                            <Row className={this._getSyncPercentage() < 99 ? 'd-none' : 'mt-3'}>
+                            <Row className={this._getSyncPercentage() < 99 ? 'd-none' : 'mt-2'}>
                                 <Col xs={6} className={"text text-center"}>
                                     <p>{this.state.node_bps} BPS</p>
                                 </Col>
@@ -504,7 +504,9 @@ export default class App extends Component {
                                     <p>{this.state.node_cps} CPS</p>
                                 </Col>
                             </Row>
-
+                            <div data-text="This widget shows the current block status of the node and whether is in sync the the network. Also BPS (Blocks per second) and CPS (Confirmations per second) are shown which is an average over the last 10 seconds. This widget updates every 10 seconds." className={"ttip"}>
+                                <p>?</p>
+                            </div>
                         </div>
                     </div>
                     </Col>
@@ -539,6 +541,9 @@ export default class App extends Component {
                                     {this.state.node_resources_cpu_model}
                                 </p>
                             </div>
+                            <div data-text="This widget shows the resource usage of the server. This widgets is updated every 30 seconds, and the bandwidth used is an average over the last 30 seconds." className={"ttip"}>
+                                <p>?</p>
+                            </div>
                         </div>
                     </Col>
                     <Col xs={12} md={6} xl={4}>
@@ -564,6 +569,12 @@ export default class App extends Component {
                                     <a href={"https://nanocrawler.cc/explorer/account/"+this.state.config.repAddress}
                                        target={"_blank"} rel="noreferrer">{this.state.config.repAddress}</a>
                                 </p>
+                                <p className={"stats-footer text-center"}>
+                                    <a href="https://nano.community/getting-started-users/choosing-a-representative" rel="noreferrer" target={"_blank"}>
+                                        How / Why switch representative?
+                                    </a>
+                                </p>
+
                             </div>
                         </div>
                     </Col>
