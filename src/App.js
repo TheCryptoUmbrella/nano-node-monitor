@@ -54,6 +54,7 @@ export default class App extends Component {
         speedtestSendConfirmedAt: new Date(),
         socketConnected: false,
         peers: 0,
+        usersOnline: 0,
         config: {
             version: '',
             speedtestEnabled: false
@@ -313,9 +314,21 @@ export default class App extends Component {
                         node_bps: incomingdata.bps
                     });
                     break;
+                case 'usersOnline':
+                    this.setState({
+                        usersOnline: incomingdata.usersOnline
+                    });
+                    break;
                 default:
                     break;
             }
+
+
+
+
+
+
+
     }
 
     resetSpeedtest() {
@@ -812,7 +825,7 @@ export default class App extends Component {
             <Row>
                 <Col xs={{span: 6, offset: 3}} className={"text-center pt-2"}>
                     <p className={'mb-1 text-blue'}>{this.state.node_vendor} ({this.state.store_vendor}, {this.state.peers} peers)</p>
-                    <p className={'mt-0 pt-0 text-blue dashboard-version'}>dashboard V{this.state.config.version}</p>
+                    <p className={'mt-0 pt-0 text-blue dashboard-version'}>dashboard V{this.state.config.version} ({this.state.usersOnline} {this.state.usersOnline === 1 ? 'user': 'users'} viewing)</p>
                 </Col>
                 <Col xs={3} className={"text-right pt-2 pr-4"}>
                     <a href={"https://github.com/TheCryptoUmbrella/nano-node-monitor"} target={"_blank"} rel="noreferrer"> <img alt={"github logo"} width={16} src={GHLogo} /></a>

@@ -91,8 +91,10 @@ wsServer.on('connection', function connection(ws) {
             sendUpdateForSpeedtestChange();
         }
 
-
+        cacheData.updateCacheData('usersOnline', wsServer.clients.size);
     });
+
+    cacheData.updateCacheData('usersOnline', wsServer.clients.size);
 
     //send all the latest data
     for(let key in cacheData.cache)
