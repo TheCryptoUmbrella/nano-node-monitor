@@ -1,4 +1,5 @@
 const env = process.env.NODE_ENV || 'local';
+const packageJson = require('../package');
 const dotenv = require('dotenv');
 const dotFile = 'env.'+env;
 const configResult = dotenv.config({path: process.cwd() +'/' + dotFile});
@@ -9,7 +10,7 @@ if (configResult.error) {
 }
 
 //All the constants we use
-const MONITOR_VERSION = '1.0.2';
+const MONITOR_VERSION = packageJson.version;
 const WALLET = process.env.WALLET;
 const ADDRESS = process.env.NODE_ADDRESS;
 const SPEEDTEST_ADDRESS = process.env.SPEEDTEST_ADDRESS;
