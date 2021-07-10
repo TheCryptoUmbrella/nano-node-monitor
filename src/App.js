@@ -21,6 +21,7 @@ export default class App extends Component {
         node_block_count: 0,
         node_cemented_count: 0,
         node_unchecked_count: 0,
+        node_sync_status_percentage: 0,
         ledger_block_count: 0,
         ledger_cemented_count: 0,
         ledger_unchecked_count: 0,
@@ -41,6 +42,8 @@ export default class App extends Component {
         node_realtime_bandwith_bytes_out: 0,
         node_realtime_bandwith_percent_in: 0,
         node_realtime_bandwith_percent_out: 0,
+        node_cps: 0,
+        node_bps: 0,
         speed_test_history: {},
         realtimeEnabled: false,
         speedtestIsActiveElsewhere: false,
@@ -67,6 +70,8 @@ export default class App extends Component {
     closeSocketTimer = null;
     speedtestResetTimer = null;
     reconnectTimer = null;
+    ledgerBlockCount = 0;
+    nodeBlockCount = 0;
 
 
     async componentWillMount() {
@@ -158,6 +163,7 @@ export default class App extends Component {
                     this.animateNumber('ledger_block_count', this.state.ledger_block_count, incomingdata.telemetry.block_count, NR_ANIMATION_TIME_MS);
                     this.animateNumber('ledger_cemented_count', this.state.ledger_cemented_count, incomingdata.telemetry.cemented_count, NR_ANIMATION_TIME_MS);
                     this.animateNumber('ledger_unchecked_count', this.state.ledger_unchecked_count, incomingdata.telemetry.unchecked_count, NR_ANIMATION_TIME_MS);
+                    this.ledgerBlockCount = incomingdata.telemetry.block_count;
                     this.telemetryReceived = true;
                     break;
 
@@ -168,6 +174,8 @@ export default class App extends Component {
                     this.animateNumber('node_block_count', this.state.node_block_count, incomingdata.block_count.count, NR_ANIMATION_TIME_MS);
                     this.animateNumber('node_cemented_count', this.state.node_cemented_count, incomingdata.block_count.cemented, NR_ANIMATION_TIME_MS);
                     this.animateNumber('node_unchecked_count', this.state.node_unchecked_count, incomingdata.block_count.unchecked, NR_ANIMATION_TIME_MS);
+
+                    this.nodeBlockCount = incomingdata.block_count.count;
                     this.blockCountReceived = true;
                     break;
                 case 'resources':
@@ -291,9 +299,19 @@ export default class App extends Component {
                     break;
                 case 'peers':
                     this.setState({peers: incomingdata.peers});
-                    break
+                    break;
                 case 'config':
                     this.setState({config: incomingdata.config});
+                    break;
+                case 'cps':
+                    this.setState({
+                        node_cps: incomingdata.cps
+                    });
+                    break;
+                case 'bps':
+                    this.setState({
+                        node_bps: incomingdata.bps
+                    });
                     break;
                 default:
                     break;
@@ -403,6 +421,12 @@ export default class App extends Component {
         return <img alt={"loader"} className={state ? 'loader' : "d-none"} src={nano_loader}/>
     }
 
+    _getSyncPercentage(){
+        if (!this.telemetryReceived || !this.blockCountReceived) return 0;
+
+        return Math.round((this.nodeBlockCount / this.ledgerBlockCount) * 100);
+    }
+
     render() {
 
         if (this.state.fullPageLoader) {
@@ -434,7 +458,7 @@ export default class App extends Component {
             <Row>
                     <Col xs={12} md={6} xl={4}>
                     <div className={"statsContainer"}>
-                        <h2>Blockcount</h2>
+                        <h2>Block count</h2>
                         {this._getLoader(this.state.blockStatsLoader)}
                         <div className={this.state.blockStatsLoader ? 'd-none' : ''}>
                             <table className={"table table-striped table-blocks"}>
@@ -456,17 +480,31 @@ export default class App extends Component {
                                     <td>{this._formatNumber(this.state.node_cemented_count)}</td>
                                     <td>{this._formatNumber(this.state.ledger_cemented_count)}</td>
                                 </tr>
-                                <tr>
+                                <tr className={this._getSyncPercentage() > 99 ? 'd-none' : ''}>
                                     <th scope="row">Unchecked</th>
                                     <td>{this._formatNumber(this.state.node_unchecked_count)}</td>
                                     <td>{this._formatNumber(this.state.ledger_unchecked_count)}</td>
                                 </tr>
                                 </tbody>
                             </table>
-                            <p className={"stats-footer text-center"}
-                               style={Math.round((this.state.node_block_count / this.state.ledger_block_count) * 100) > 99 ? {color: 'green'} : {color: 'red'}}>
-                                Sync status {Math.round((this.state.node_block_count / this.state.ledger_block_count) * 100)}%
-                            </p>
+
+                            <Row className={"mt-3"}>
+                                <Col>
+                                    <p className={"stats-footer text-center"}
+                                       style={this._getSyncPercentage() > 99 ? {color: 'green'} : {color: 'red'}}>
+                                        Sync status {this._getSyncPercentage()}%
+                                    </p>
+                                </Col>
+                            </Row>
+                            <Row className={this._getSyncPercentage() < 99 ? 'd-none' : 'mt-3'}>
+                                <Col xs={6} className={"text text-center"}>
+                                    <p>{this.state.node_bps} BPS</p>
+                                </Col>
+                                <Col xs={6} className={"text text-center"}>
+                                    <p>{this.state.node_cps} CPS</p>
+                                </Col>
+                            </Row>
+
                         </div>
                     </div>
                     </Col>

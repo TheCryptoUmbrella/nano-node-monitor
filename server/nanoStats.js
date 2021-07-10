@@ -48,9 +48,20 @@ async function updateBlockData() {
     if (blockCount) {
         cacheData.updateCacheData('block_count', JSON.stringify({block_count: blockCount}));
 
-        cacheData.nanoNinjaCache.currentBlock = parseInt(blockCount.count);
+
+        const newCount  = parseInt(blockCount.count);
+        const newCementedCount = parseInt(blockCount.cemented);
+        if (cacheData.nanoNinjaCache.currentBlock && cacheData.nanoNinjaCache.cementedBlocks) {
+            const cps = ((newCementedCount - cacheData.nanoNinjaCache.cementedBlocks) / BLOCK_DATA_INTERVAL_SECONDS).toFixed(2);
+            cacheData.updateCacheData('cps', JSON.stringify({cps: cps}))
+
+            const bps = ((newCount - cacheData.nanoNinjaCache.currentBlock) / BLOCK_DATA_INTERVAL_SECONDS).toFixed(2);
+            cacheData.updateCacheData('bps', JSON.stringify({bps: bps}))
+        }
+
+        cacheData.nanoNinjaCache.currentBlock = newCount;
         cacheData.nanoNinjaCache.uncheckedBlocks = parseInt(blockCount.unchecked);
-        cacheData.nanoNinjaCache.cementedBlocks = parseInt(blockCount.cemented);
+        cacheData.nanoNinjaCache.cementedBlocks = newCementedCount;
 
         const networkBlockCount = telemetry && parseInt(telemetry.block_count);
         cacheData.nanoNinjaCache.blockSync = cacheData.nanoNinjaCache.currentBlock > networkBlockCount ? 100 :  Math.round((100 * cacheData.nanoNinjaCache.currentBlock) / networkBlockCount);

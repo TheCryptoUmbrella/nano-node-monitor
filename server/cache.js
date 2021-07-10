@@ -23,7 +23,9 @@ const cache = {
     weight: '',
     speedtest: '',
     speedtestActive: JSON.stringify({speedtestActive: false}),
-    peers: ''
+    peers: '',
+    cps: '',
+    bps: ''
 };
 
 let latestTransactions = [];
