@@ -59,8 +59,8 @@ export default class App extends Component {
             version: '',
             speedtestEnabled: false
         },
-        nanoPriceUsd: null,
-        nanoPriceChange: null
+        nanoPriceUsd: 0,
+        nanoPriceChange: 0
     };
 
     RECEIVE_THRESHOLD = 'fffffe0000000000';
@@ -851,7 +851,7 @@ export default class App extends Component {
             }
             <Row>
                 <Col xs={3} className={this.state.nanoPriceUsd ? 'pl-4' : 'd-none'}>
-                    <p className={"text-blue"}>${this.state.nanoPriceUsd} (last 24h {this.state.nanoPriceChange.toFixed(2)}%)</p>
+                    <p className={"text-blue"}>${this.state.nanoPriceUsd} (last 24h {this.state.nanoPriceChange > 0 ? '+' : ''}{this.state.nanoPriceChange.toFixed(2)}%)</p>
                 </Col>
                 <Col xs={{span: 6}} className={"text-center"}>
                     <p className={'mb-1 text-blue'}>{this.state.node_vendor} ({this.state.store_vendor}, {this.state.peers} peers)</p>
